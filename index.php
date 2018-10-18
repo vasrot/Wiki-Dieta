@@ -1,3 +1,7 @@
+<?php
+    require_once 'easyrdf/vendor/autoload.php';
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,14 +18,17 @@
 <?php 
     function movement_wikidata_call($numresults, $movement){
         
-        if($movement=="Q11442"){
-            $nombre="Bicicletas";
-        }else if ($movement=="Q6149036"){
-            $nombre="Decoracion";
-        }else if ($movement=="Q11460"){
-            $nombre="Ropa";
+        if($movement=="Q3314483"){
+            $nombre="Frutas";
+        }else if ($movement=="Q600396"){
+            $nombre="Pescados";
+        }else if ($movement=="Q10990"){
+            $nombre="Carnes";
+        }else if ($movement=="Q12117"){
+            $nombre="Cereales";
         }else{
-            $nombre="Tecnologia";
+            $movement=="Q11004";
+            $nombre="Vegetales";
         }
         
         $cont=0;
@@ -29,6 +36,8 @@
         
         echo "<h2>Futuros articulos disponibles en ". $nombre .":</h2>";
         echo "<table cellspacing='0' cellpadding='0'>";
+
+        
 
         $result = $sparql->query(
             'SELECT ?imageLabel ?itemLabel '.
