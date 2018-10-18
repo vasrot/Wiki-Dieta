@@ -20,8 +20,8 @@
         
         if($movement=="Q3314483"){
             $nombre="Frutas";
-        }else if ($movement=="Q600396"){
-            $nombre="Pescados";
+        }else if ($movement=="Q178"){
+            $nombre="Pasta";
         }else if ($movement=="Q10990"){
             $nombre="Carnes";
         }else if ($movement=="Q12117"){
@@ -56,25 +56,90 @@
             '}'
             
         );
-
+       $cont=0;
+        //var_dump($array);
         foreach ($result2 as $row) {
             //echo "<tr>";
             //echo .$row->imageLabel.;
             //echo "<li>".$row->imageLabel."</li>";
             if(isset($row->itemLabel)){
                 $myText = (string)$row->itemLabel;
-                
+               // $array = $array.$row->itemLabel;
+               global $cont;
+               //$array = "";
+
+
+                  if($cont==0){
+                    $cont++;
+                    $array = "";
+                $array = $array.$row->itemLabel; 
+        	
+              // array_push ( $array , "hola2" );
+                //echo $array;
                 if($myText[0]!='Q'){
-                    if($cont<$numresults){
+                   // if($cont<$numresults){
                         if($row->itemLabel!="Wichs"){
-                        echo "<li>".$row->itemLabel."</li>";
-                       
-                        echo "<img src='".$row->imageLabel."' border='0' width='300' height='100'>";
                         
+                        $calamar="http://dbpedia.org/resource/".$row->itemLabel;
+                        
+                        foreach ($result as $row2) {
+                            // echo "holaa";
+                             //echo "<li>".$row->item."</li>";
+                            // $mengano=$row->item;
+                             if(strcasecmp($calamar, $row2->item) == 0){//.$row->itemLabel.=="http://dbpedia.org/resource/"){
+                                echo "<li>".$row->itemLabel."</li>";
+                                echo "<img src='".$row->imageLabel."' border='0' width='300' height='100'>";
+                                //echo "<li>".$row2->kj."</li>";
+                                $kilocal=$row2->kj;
+                                //echo "<li>".$kilocal."</li>";
+                                $kilocal=(int)str_replace(' ', '', $kilocal);
+                                $kilocal = $kilocal*0.239006;
+                                echo "<li>".$kilocal."</li>";
+                                
+                             }
+                            // echo "<p></p>";
+                             
+                         }
+                        $cont++;
+                        }
+                    }
+                  }else{
+               if($array!=$row->itemLabel){
+                $array = "";
+                $array = $array.$row->itemLabel; 
+        	
+              // array_push ( $array , "hola2" );
+                //echo $array;
+                if($myText[0]!='Q'){
+                   // if($cont<$numresults){
+                        if($row->itemLabel!="Wichs"){
+                        
+                        $calamar="http://dbpedia.org/resource/".$row->itemLabel;
+                        
+                        foreach ($result as $row2) {
+                            // echo "holaa";
+                             //echo "<li>".$row->item."</li>";
+                            // $mengano=$row->item;
+                             if(strcasecmp($calamar, $row2->item) == 0){//.$row->itemLabel.=="http://dbpedia.org/resource/"){
+                                 if($row->itemLabel!="cherry" && $row->itemLabel!="banana" && $row->itemLabel!="watermelon" && $row->itemLabel!="apricot"){
+                                echo "<li>".$row->itemLabel."</li>";
+                                echo "<img src='".$row->imageLabel."' border='0' width='300' height='100'>";
+                                //echo "<li>".$row2->kj."</li>";
+                                $kilocal=$row2->kj;
+                                //echo "<li>".$kilocal."</li>";
+                                $kilocal=(int)str_replace(' ', '', $kilocal);
+                                $kilocal = $kilocal*0.239006;
+                                echo "<li>".$kilocal."</li>";
+                                 }
+                             }
+                            // echo "<p></p>";
+                             
+                         }
                         $cont++;
                         }
                     }
                 }
+            }
             }else {
                 echo "<h5>Error</h5>";
             }
@@ -82,33 +147,7 @@
             echo "<p></p>";
             
         }
-        foreach ($result as $row) {
-            echo "holaa";
-            echo "<li>".$row->item."</li>";
-                        echo "<li>".$row->kj."</li>";
-            //echo .$row->imageLabel.;
-            //echo "<li>".$row->imageLabel."</li>";
-            if(isset($row->item)){
-                $myText = (string)$row->item;
-                $myText = (string)$row->kj;
-               // if($myText[0]!='Q'){
-                    if($cont<$numresults){
-                        if($row->item!="Wichs"){
-                        echo "<li>".$row->item."</li>";
-                        echo "<li>".$row->kj."</li>";
-                        //echo "<img src='".$row->imageLabel."' border='0' width='300' height='100'>";
-                        
-                        $cont++;
-                        }
-                   // }
-                }
-            }else {
-                echo "<h5>Error</h5>";
-            }
-            //echo $movement;
-            echo "<p></p>";
-            
-        }
+        
     }
 ?>
 
@@ -123,7 +162,7 @@
                 <label for="numresults">Categoría:</label><br>
                 <select name="movement">
                 <option value="Q3314483">Frutas</option>
-                <option value="Q600396">Pescado</option>
+                <option value="Q178">Pasta</option>
                 <option value="Q10990">Carnes</option>
                 <option value="Q12117">Cereales</option>
                 <option value="Q11004">Vegetales</option>
@@ -131,8 +170,8 @@
                 </p>
                 
                 <p>
-                <label for="numresults">Número resultados:</label><br>
-                <select name="numresults">
+                <label hidden for="numresults">Número resultados:</label><br>
+                <select hidden name="numresults">
                 <option value="3">3</option>
                 <option value="5">5</option>
                 <option value="10">10</option>
@@ -140,7 +179,7 @@
                 </select>
                 </p>
                 <input type="hidden" name="new_search" value="1"/>
-                <button type="submit">Buscar</button>
+                <button hidden type="submit">Buscar</button>
             </form>
         </fieldset>
 
