@@ -1,0 +1,12 @@
+SELECT ?fruto ?frutoLabel ?imagen WHERE {
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
+  ?fruto wdt:P279 wd:Q3314483.
+  OPTIONAL { ?fruto wdt:P18 ?imagen. }
+}
+
+
+SELECT DISTINCT ?item ?kj WHERE {
+  SERVICE <http://dbpedia.org/sparql> {
+    ?item <http://dbpedia.org/property/kj> ?kj
+  }
+} 
