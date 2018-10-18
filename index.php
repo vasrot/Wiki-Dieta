@@ -33,21 +33,31 @@
         
         $cont=0;
         $sparql = new EasyRdf_Sparql_Client('http://query.wikidata.org/sparql');
-        
+        $sparql2 = new EasyRdf_Sparql_Client('http://query.wikidata.org/sparql');
         echo "<h2>Futuros articulos disponibles en ". $nombre .":</h2>";
         echo "<table cellspacing='0' cellpadding='0'>";
 
         
 
-        $result = $sparql->query(
+        $result2 = $sparql2->query(
             'SELECT ?imageLabel ?itemLabel '.
-            'WHERE {  ?item wdt:P31 wd:'. $movement .'.'.
+            'WHERE {  ?item wdt:P279 wd:'. $movement .'.'.
             '?item wdt:P18 ?image'.
             '  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }'.
             '}'
             
         );
-        foreach ($result as $row) {
+
+        $result = $sparql->query(
+            'SELECT DISTINCT ?item ?kj WHERE {'.
+            'SERVICE <http://dbpedia.org/sparql> {'.
+            '?item <http://dbpedia.org/property/kj> ?kj'.
+            '}'.
+            '}'
+            
+        );
+
+        foreach ($result2 as $row) {
             //echo "<tr>";
             //echo .$row->imageLabel.;
             //echo "<li>".$row->imageLabel."</li>";
@@ -58,7 +68,7 @@
                     if($cont<$numresults){
                         if($row->itemLabel!="Wichs"){
                         echo "<li>".$row->itemLabel."</li>";
-                        //echo '<img src="https://commons.wikimedia.org/wiki/File:39%20x%2024%20Star%20Bicycle.jpg">';
+                       
                         echo "<img src='".$row->imageLabel."' border='0' width='300' height='100'>";
                         
                         $cont++;
@@ -72,7 +82,33 @@
             echo "<p></p>";
             
         }
+        foreach ($result as $row) {
+            echo "holaa";
+            echo "<li>".$row->item."</li>";
+                        echo "<li>".$row->kj."</li>";
+            //echo .$row->imageLabel.;
+            //echo "<li>".$row->imageLabel."</li>";
+            if(isset($row->item)){
+                $myText = (string)$row->item;
+                $myText = (string)$row->kj;
+               // if($myText[0]!='Q'){
+                    if($cont<$numresults){
+                        if($row->item!="Wichs"){
+                        echo "<li>".$row->item."</li>";
+                        echo "<li>".$row->kj."</li>";
+                        //echo "<img src='".$row->imageLabel."' border='0' width='300' height='100'>";
+                        
+                        $cont++;
+                        }
+                   // }
+                }
+            }else {
+                echo "<h5>Error</h5>";
+            }
+            //echo $movement;
+            echo "<p></p>";
             
+        }
     }
 ?>
 
@@ -86,10 +122,11 @@
                 <p>
                 <label for="numresults">Categoría:</label><br>
                 <select name="movement">
-                <option value="Q11442">Bicicletas</option>
-                <option value="Q6149036">Decoración</option>
-                <option value="Q11460">Ropa</option>
-                <option value="Q2425052">Tecnología</option>
+                <option value="Q3314483">Frutas</option>
+                <option value="Q600396">Pescado</option>
+                <option value="Q10990">Carnes</option>
+                <option value="Q12117">Cereales</option>
+                <option value="Q11004">Vegetales</option>
                 </select>
                 </p>
                 
