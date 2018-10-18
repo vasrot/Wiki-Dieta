@@ -34,7 +34,7 @@
         $cont=0;
         $sparql = new EasyRdf_Sparql_Client('http://query.wikidata.org/sparql');
         $sparql2 = new EasyRdf_Sparql_Client('http://query.wikidata.org/sparql');
-        echo "<h2>Futuros articulos disponibles en ". $nombre .":</h2>";
+        echo "<h2 id=\"creado\">". $nombre ." disponibles: </h2>";
         echo "<table cellspacing='0' cellpadding='0'>";
 
         
@@ -151,16 +151,16 @@
     }
 ?>
 
-<body>
+<body onload="iniciar();">
     
     <div class="wrap">
         <fieldset>
             <legend>Próximos artículos disponibles</legend>
             <p>Consulta por categorías los artículos que estarán disponibles próximamente en commerce eXtreme</p>
-            <form method="post" name="front_end" action="" >
+            <form method="post" name="front_end">
                 <p>
                 <label for="numresults">Categoría:</label><br>
-                <select name="movement">
+                <select onchange="hacambiado();" name="movement">
                 <option value="Q3314483">Frutas</option>
                 <option value="Q178">Pasta</option>
                 <option value="Q10990">Carnes</option>
@@ -179,7 +179,7 @@
                 </select>
                 </p>
                 <input type="hidden" name="new_search" value="1"/>
-                <button hidden type="submit">Buscar</button>
+                <button id="boton_buscar" hidden type="submit">Buscar</button>
             </form>
         </fieldset>
 
@@ -197,6 +197,10 @@
         ?>
         
     </div><!-- .wrap -->
+
+        <footer>
+            <script src="./main.js"></script>
+        </footer>
 
 </body>
 
